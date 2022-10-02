@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.LoginActivity">
 
     <TextView
-        android:id="@+id/tv_main_title"
+        android:id="@+id/tv_login_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_main_id"
+        android:id="@+id/tv_login_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -28,57 +28,57 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_main_title" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_login_title" />
 
     <TextView
-        android:id="@+id/tv_main_pw"
+        android:id="@+id/tv_login_pw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/main_pw"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/et_main_id"
-        app:layout_constraintTop_toBottomOf="@+id/et_main_id" />
+        app:layout_constraintStart_toStartOf="@+id/et_login_id"
+        app:layout_constraintTop_toBottomOf="@+id/et_login_id" />
 
     <EditText
-        android:id="@+id/et_main_id"
+        android:id="@+id/et_login_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
         android:hint="@string/main_id_hint"
-        app:layout_constraintTop_toBottomOf="@+id/tv_main_id"
+        app:layout_constraintTop_toBottomOf="@+id/tv_login_id"
         tools:layout_editor_absoluteX="0dp" />
 
     <EditText
-        android:id="@+id/et_main_pw"
+        android:id="@+id/et_login_pw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
         android:hint="@string/main_pw_hint"
-        app:layout_constraintTop_toBottomOf="@+id/tv_main_pw"
+        app:layout_constraintTop_toBottomOf="@+id/tv_login_pw"
         tools:layout_editor_absoluteX="31dp" />
 
     <Button
-        android:id="@+id/btn_main_login"
+        android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="32dp"
         android:text="@string/main_login"
-        app:layout_constraintTop_toBottomOf="@+id/et_main_pw"
+        app:layout_constraintTop_toBottomOf="@+id/et_login_pw"
         tools:layout_editor_absoluteX="-16dp" />
 
     <Button
-        android:id="@+id/btn_main_sign_up"
+        android:id="@+id/btn_login_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/main_sign_up"
-        app:layout_constraintTop_toBottomOf="@+id/btn_main_login"
+        app:layout_constraintTop_toBottomOf="@+id/btn_login"
         tools:layout_editor_absoluteX="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
