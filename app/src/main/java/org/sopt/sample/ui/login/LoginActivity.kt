@@ -41,15 +41,17 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginButtonOnClick() {
-        Intent(this, MainActivity::class.java)
-            .apply {
-                putExtra("id", loginViewModel.idText.value)
-                putExtra("mbti", loginViewModel.mbtiText.value)
-            }
-            .also {
-                startActivity(intent)
-                finish()
-            }
+        binding.btnLogin.setOnClickListener {
+            Intent(this, MainActivity::class.java)
+                .apply {
+                    putExtra("id", loginViewModel.idText.value)
+                    putExtra("mbti", loginViewModel.mbtiText.value)
+                }
+                .also {
+                    startActivity(intent)
+                    finish()
+                }
+        }
     }
 
     private fun signUpButtonOnClick() {
