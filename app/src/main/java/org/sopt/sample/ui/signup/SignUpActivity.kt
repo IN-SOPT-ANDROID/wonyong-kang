@@ -40,14 +40,18 @@ class SignUpActivity : AppCompatActivity() {
             is UiEvent.Fail -> showSnackBar(getString(R.string.sign_up_fail))
             is UiEvent.Success -> {
                 showSnackBar(getString(R.string.sign_up_success))
-                Intent(this, LoginActivity::class.java).apply {
-                    putExtra("id", signUpViewModel.idText.value)
-                    putExtra("pw", signUpViewModel.pwText.value)
-                }.also { intent ->
-                    setResult(RESULT_OK, intent)
-                    finish()
-                }
+                sendUserInfo()
             }
+        }
+    }
+
+    private fun sendUserInfo() {
+        Intent(this, LoginActivity::class.java).apply {
+            putExtra("id", signUpViewModel.idText.value)
+            putExtra("pw", signUpViewModel.pwText.value)
+        }.also { intent ->
+            setResult(RESULT_OK, intent)
+            finish()
         }
     }
 
