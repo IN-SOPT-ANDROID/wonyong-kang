@@ -19,21 +19,21 @@ class SignUpViewModel : ViewModel() {
     val mbtiText = MutableStateFlow("")
 
     private val isSignUp = combine(idText, pwText) { id, pw ->
-        id.length in 7..9 && pw.length in 9..12
+        id.length in 6..10 && pw.length in 8..12
     }.stateIn(started = SharingStarted.Eagerly, scope = viewModelScope, initialValue = false)
 
     fun signUpButtonOnClick() {
         viewModelScope.launch {
-            if (!isSignUp.value) {
-                _signUpEvent.emit(UiEvent.ShowSnackBar)
-            } else {
+            if (isSignUp.value) {
                 _signUpEvent.emit(UiEvent.Success)
+            } else {
+                _signUpEvent.emit(UiEvent.Fail)
             }
         }
     }
 }
 
 sealed class UiEvent {
-    object ShowSnackBar : UiEvent()
+    object Fail : UiEvent()
     object Success : UiEvent()
 }

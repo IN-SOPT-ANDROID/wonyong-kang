@@ -12,4 +12,5 @@
     <string name="sign_up_title">SIGN UP</string>
     <string name="sign_up_clear">회원가입 완료</string>
     <string name="sign_up_success">회원가입이 완료되었습니다.</string>
+    <string name="sign_up_fail">다시 입력해주세요.</string>
 </resources>

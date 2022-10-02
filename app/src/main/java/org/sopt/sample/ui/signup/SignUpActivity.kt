@@ -1,5 +1,6 @@
 package org.sopt.sample.ui.signup
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivitySignUpBinding
+import org.sopt.sample.ui.login.LoginActivity
 
 class SignUpActivity : AppCompatActivity() {
     private val signUpViewModel: SignUpViewModel by viewModels()
@@ -35,12 +37,21 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun eventHandler(uiEvent: UiEvent) {
         when (uiEvent) {
-            is UiEvent.ShowSnackBar -> showSnackBar()
-            is UiEvent.Success -> finish()
+            is UiEvent.Fail -> showSnackBar(getString(R.string.sign_up_fail))
+            is UiEvent.Success -> {
+                showSnackBar(getString(R.string.sign_up_success))
+                Intent(this, LoginActivity::class.java).apply {
+                    putExtra("id", signUpViewModel.idText.value)
+                    putExtra("pw", signUpViewModel.pwText.value)
+                }.also { intent ->
+                    setResult(RESULT_OK, intent)
+                    finish()
+                }
+            }
         }
     }
 
-    private fun showSnackBar() {
-        Snackbar.make(binding.root, getString(R.string.sign_up_success), Snackbar.LENGTH_SHORT).show()
+    private fun showSnackBar(snackBarText: String) {
+        Snackbar.make(binding.root, snackBarText, Snackbar.LENGTH_SHORT).show()
     }
 }
