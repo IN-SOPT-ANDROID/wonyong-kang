@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.example.data.entity.User
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -47,9 +48,12 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun sendUserInfo() {
         Intent(this, LoginActivity::class.java).apply {
-            putExtra("id", signUpViewModel.idText.value)
-            putExtra("pw", signUpViewModel.pwText.value)
-            putExtra("mbti", signUpViewModel.mbtiText.value)
+            val user = User(
+                id = signUpViewModel.idText.value,
+                pw = signUpViewModel.pwText.value,
+                mbti = signUpViewModel.mbtiText.value
+            )
+            putExtra("user", user)
         }.also { intent ->
             setResult(RESULT_OK, intent)
             finish()

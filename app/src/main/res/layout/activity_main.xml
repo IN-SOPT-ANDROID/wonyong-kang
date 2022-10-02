@@ -13,7 +13,7 @@
         tools:context=".ui.MainActivity">
 
         <TextView
-            android:id="@+id/tv_main_mbti"
+            android:id="@+id/tv_main_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -24,14 +24,14 @@
             tools:text="이름: 강원용" />
 
         <TextView
-            android:id="@+id/tv_main_name"
+            android:id="@+id/tv_main_mbti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_main_mbti"
-            app:layout_constraintStart_toStartOf="@+id/tv_main_mbti"
-            app:layout_constraintTop_toBottomOf="@+id/tv_main_mbti"
+            app:layout_constraintEnd_toEndOf="@+id/tv_main_name"
+            app:layout_constraintStart_toStartOf="@+id/tv_main_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_main_name"
             tools:text="MBTI: ISTJ" />
 
         <ImageView
@@ -44,6 +44,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_main_log_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="@string/main_log_out"
+            app:layout_constraintEnd_toEndOf="@+id/tv_main_mbti"
+            app:layout_constraintStart_toStartOf="@+id/tv_main_mbti"
+            app:layout_constraintTop_toBottomOf="@+id/tv_main_mbti" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
