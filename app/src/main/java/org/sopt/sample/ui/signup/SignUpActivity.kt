@@ -49,6 +49,7 @@ class SignUpActivity : AppCompatActivity() {
         Intent(this, LoginActivity::class.java).apply {
             putExtra("id", signUpViewModel.idText.value)
             putExtra("pw", signUpViewModel.pwText.value)
+            putExtra("mbti", signUpViewModel.mbtiText.value)
         }.also { intent ->
             setResult(RESULT_OK, intent)
             finish()

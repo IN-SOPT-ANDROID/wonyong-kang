@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivityLoginBinding
+import org.sopt.sample.ui.MainActivity
 import org.sopt.sample.ui.signup.SignUpActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -20,8 +21,10 @@ class LoginActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             val id = result.data?.getStringExtra("id") ?: ""
             val pw = result.data?.getStringExtra("pw") ?: ""
+            val mbti = result.data?.getStringExtra("mbti") ?: ""
             loginViewModel.idText.value = id
             loginViewModel.pwText.value = pw
+            loginViewModel.mbtiText.value = mbti
         }
     }
 
@@ -34,6 +37,19 @@ class LoginActivity : AppCompatActivity() {
                     lifecycleOwner = this@LoginActivity
                 }
         signUpButtonOnClick()
+        loginButtonOnClick()
+    }
+
+    private fun loginButtonOnClick() {
+        Intent(this, MainActivity::class.java)
+            .apply {
+                putExtra("id", loginViewModel.idText.value)
+                putExtra("mbti", loginViewModel.mbtiText.value)
+            }
+            .also {
+                startActivity(intent)
+                finish()
+            }
     }
 
     private fun signUpButtonOnClick() {

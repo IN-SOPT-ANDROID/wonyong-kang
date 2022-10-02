@@ -1,42 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_main_mbti"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/iv_main_profile"
-        app:layout_constraintStart_toStartOf="@+id/iv_main_profile"
-        app:layout_constraintTop_toBottomOf="@+id/iv_main_profile"
-        tools:text="이름: 강원용" />
+    <data>
 
-    <TextView
-        android:id="@+id/tv_main_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/tv_main_mbti"
-        app:layout_constraintStart_toStartOf="@+id/tv_main_mbti"
-        app:layout_constraintTop_toBottomOf="@+id/tv_main_mbti"
-        tools:text="MBTI: ISTJ" />
+    </data>
 
-    <ImageView
-        android:id="@+id/iv_main_profile"
-        android:layout_width="100dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="72dp"
-        android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.MainActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tv_main_mbti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/iv_main_profile"
+            app:layout_constraintStart_toStartOf="@+id/iv_main_profile"
+            app:layout_constraintTop_toBottomOf="@+id/iv_main_profile"
+            tools:text="이름: 강원용" />
+
+        <TextView
+            android:id="@+id/tv_main_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_main_mbti"
+            app:layout_constraintStart_toStartOf="@+id/tv_main_mbti"
+            app:layout_constraintTop_toBottomOf="@+id/tv_main_mbti"
+            tools:text="MBTI: ISTJ" />
+
+        <ImageView
+            android:id="@+id/iv_main_profile"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="72dp"
+            android:src="@drawable/ic_launcher_foreground"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
