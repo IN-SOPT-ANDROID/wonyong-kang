@@ -1,3 +1,10 @@
 package org.sopt.sample
 
-class LoginActivity
+class LoginActivity {
+
+    fun abc() {
+    }
+
+    fun test() {
+    }
+}
