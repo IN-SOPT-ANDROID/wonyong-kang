@@ -47,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
                     putExtra("id", loginViewModel.idText.value)
                     putExtra("mbti", loginViewModel.mbtiText.value)
                 }
-                .also {
+                .also { intent ->
                     startActivity(intent)
                     finish()
                 }
