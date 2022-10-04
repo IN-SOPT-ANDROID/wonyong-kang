@@ -9,16 +9,29 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.compose.component.SoptButton
 import com.example.compose.component.SoptTextField
 import com.example.compose.ui.theme.INSOPTAndroidPracticeTheme
+import com.example.data.datasource.local.UserDataSource
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(
+    signUpViewModel: SignUpViewModel
+) {
+    val uiState by signUpViewModel.signUpUiState.collectAsStateWithLifecycle()
+    if (uiState.moveToLogin) {
+        signUpViewModel.onEvent(SignUpEvent.MoveToLogin)
+        /* finish() 추가 */
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,7 +52,11 @@ fun SignUpScreen() {
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        SoptTextField(text = "", hint = "아이디를 입력하세요", writeText = {})
+        SoptTextField(
+            text = uiState.id,
+            hint = "아이디를 입력하세요",
+            writeText = { id -> signUpViewModel.onEvent(SignUpEvent.WriteId(id)) }
+        )
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
@@ -48,7 +65,11 @@ fun SignUpScreen() {
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        SoptTextField(text = "", hint = "비밀번호를 입력하세요", writeText = {})
+        SoptTextField(
+            text = uiState.pw,
+            hint = "비밀번호를 입력하세요",
+            writeText = { pw -> signUpViewModel.onEvent(SignUpEvent.WritePw(pw)) }
+        )
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
@@ -57,11 +78,17 @@ fun SignUpScreen() {
         )
         Spacer(modifier = Modifier.height(12.dp))
 
-        SoptTextField(text = "", hint = "MBTI를 입력하세요", writeText = {})
+        SoptTextField(
+            text = uiState.mbti,
+            hint = "MBTI를 입력하세요",
+            writeText = { mbti -> signUpViewModel.onEvent(SignUpEvent.WriteMbti(mbti)) }
+        )
         Spacer(modifier = Modifier.height(36.dp))
 
-        SoptButton(buttonText = "회원가입 완료") {
-        }
+        SoptButton(
+            buttonText = "회원가입 완료",
+            onClick = { signUpViewModel.onEvent(SignUpEvent.IsSignUp) }
+        )
     }
 }
 
@@ -69,6 +96,6 @@ fun SignUpScreen() {
 @Composable
 fun SignUpScreenPreview() {
     INSOPTAndroidPracticeTheme {
-        SignUpScreen()
+        SignUpScreen(SignUpViewModel(UserDataSource(LocalContext.current)))
     }
 }
