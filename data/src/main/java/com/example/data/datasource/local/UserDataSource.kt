@@ -26,9 +26,11 @@ class UserDataSource @Inject constructor(
             .apply()
     }
 
-    fun getUserInfo(): User {
-        val user = preferences.getString(USER_INFO, "")
-        return Gson().fromJson(user, User::class.java)
+    fun getUserInfo(): User? {
+        val user = preferences.getString(USER_INFO, "").let { user ->
+            Gson().fromJson(user, User::class.java)
+        }
+        return user
     }
 
     companion object {

@@ -15,8 +15,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.compose.component.SoptButton
 import com.example.compose.component.SoptTextField
 import com.example.compose.ui.theme.INSOPTAndroidPracticeTheme
@@ -25,7 +27,7 @@ import com.example.data.datasource.local.UserDataSource
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun SignUpScreen(
-    signUpViewModel: SignUpViewModel
+    signUpViewModel: SignUpViewModel = hiltViewModel()
 ) {
     val uiState by signUpViewModel.signUpUiState.collectAsStateWithLifecycle()
     if (uiState.moveToLogin) {

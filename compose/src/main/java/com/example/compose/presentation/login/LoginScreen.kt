@@ -20,24 +20,27 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.compose.component.SoptButton
 import com.example.compose.component.SoptTextField
 import com.example.compose.ui.theme.INSOPTAndroidPracticeTheme
-import com.example.data.datasource.local.UserDataSource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun LoginScreen(
-    loginViewModel: LoginViewModel,
+    loginViewModel: LoginViewModel = hiltViewModel(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
-    context: Context = LocalContext.current
+    context: Context = LocalContext.current,
+    toSignUp: () -> Unit,
+    toMain: () -> Unit
 ) {
     val uiState by loginViewModel.loginUiState.collectAsStateWithLifecycle()
     val scaffoldState = rememberScaffoldState()
@@ -46,6 +49,7 @@ fun LoginScreen(
             .onEach {
                 /* go login */
                 Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+                toMain()
             }
             .launchIn(lifecycleOwner.lifecycleScope)
 //        if (parameter) {
@@ -97,9 +101,7 @@ fun LoginScreen(
         }
         Spacer(modifier = Modifier.height(20.dp))
 
-        SoptButton(buttonText = "SIGNUP") {
-            /* sign up navigate */
-        }
+        SoptButton(buttonText = "SIGNUP") { toSignUp() }
     }
 }
 
@@ -107,6 +109,6 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     INSOPTAndroidPracticeTheme {
-        LoginScreen(LoginViewModel(UserDataSource(LocalContext.current)))
+        LoginScreen(toMain = {}, toSignUp = {})
     }
 }
