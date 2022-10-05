@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.data.datasource.local.UserDataSource
 import com.example.data.entity.User
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -22,11 +22,10 @@ class LoginViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-//            if (userDataSource.isAutoLogin()) {
-//                _loginUiState.value = _loginUiState.value.copy(moveToMain = true)
-//                Log.d("loglog", "user ${_loginUiState.value.moveToMain}")
-//                return@launch
-//            }
+            if (userDataSource.isAutoLogin()) {
+                _loginUiState.value = _loginUiState.value.copy(moveToMain = true)
+                return@launch
+            }
             _userInfo.value = userDataSource.getUserInfo()
         }
     }
