@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -13,7 +15,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,6 +40,7 @@ import kotlinx.coroutines.flow.onEach
 fun SignUpScreen(
     signUpViewModel: SignUpViewModel = hiltViewModel(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    focusManager: FocusManager = LocalFocusManager.current,
     toLogin: (Boolean) -> Unit
 ) {
     val uiState by signUpViewModel.signUpUiState.collectAsState()
@@ -67,7 +77,16 @@ fun SignUpScreen(
         SoptTextField(
             text = uiState.id,
             hint = "아이디를 입력하세요",
-            writeText = { id -> signUpViewModel.onEvent(SignUpEvent.WriteId(id)) }
+            writeText = { id -> signUpViewModel.onEvent(SignUpEvent.WriteId(id)) },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                capitalization = KeyboardCapitalization.Sentences,
+                autoCorrect = true,
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next
+            ),
+            keyboardActions = KeyboardActions(onNext = {
+                focusManager.moveFocus(FocusDirection.Down)
+            })
         )
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -80,7 +99,17 @@ fun SignUpScreen(
         SoptTextField(
             text = uiState.pw,
             hint = "비밀번호를 입력하세요",
-            writeText = { pw -> signUpViewModel.onEvent(SignUpEvent.WritePw(pw)) }
+            writeText = { pw -> signUpViewModel.onEvent(SignUpEvent.WritePw(pw)) },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                capitalization = KeyboardCapitalization.Sentences,
+                autoCorrect = true,
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Next
+            ),
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardActions = KeyboardActions(onNext = {
+                focusManager.moveFocus(FocusDirection.Down)
+            })
         )
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -93,7 +122,16 @@ fun SignUpScreen(
         SoptTextField(
             text = uiState.mbti,
             hint = "MBTI를 입력하세요",
-            writeText = { mbti -> signUpViewModel.onEvent(SignUpEvent.WriteMbti(mbti)) }
+            writeText = { mbti -> signUpViewModel.onEvent(SignUpEvent.WriteMbti(mbti)) },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                capitalization = KeyboardCapitalization.Sentences,
+                autoCorrect = true,
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(onDone = {
+                focusManager.clearFocus()
+            })
         )
         Spacer(modifier = Modifier.height(36.dp))
 
