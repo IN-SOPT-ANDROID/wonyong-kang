@@ -5,9 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.data.datasource.local.UserDataSource
 import com.example.data.entity.User
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,9 +14,6 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val userDataSource: UserDataSource
 ) : ViewModel() {
-    private val _loginEvent = MutableSharedFlow<Boolean>()
-    val loginEvent = _loginEvent.asSharedFlow()
-
     private val _userInfo: MutableStateFlow<User?> = MutableStateFlow(null)
     val userInfo = _userInfo.asStateFlow()
 
@@ -27,10 +22,11 @@ class LoginViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            if (userDataSource.isAutoLogin()) {
-                _loginUiState.value = _loginUiState.value.copy(moveToMain = true)
-                return@launch
-            }
+//            if (userDataSource.isAutoLogin()) {
+//                _loginUiState.value = _loginUiState.value.copy(moveToMain = true)
+//                Log.d("loglog", "user ${_loginUiState.value.moveToMain}")
+//                return@launch
+//            }
             _userInfo.value = userDataSource.getUserInfo()
         }
     }
@@ -42,12 +38,12 @@ class LoginViewModel @Inject constructor(
                     viewModelScope.launch {
                         userDataSource.setAutoLogin(true)
                         userDataSource.setUserInfo(userInfo.value!!)
-                        _loginEvent.emit(true)
+                        _loginUiState.value = _loginUiState.value.copy(moveToMain = true)
                     }
                 }
             }
             is LoginEvent.WriteId -> _loginUiState.value = _loginUiState.value.copy(id = event.id)
-            is LoginEvent.WritePw -> _loginUiState.value = _loginUiState.value.copy(id = event.pw)
+            is LoginEvent.WritePw -> _loginUiState.value = _loginUiState.value.copy(pw = event.pw)
         }
     }
 }

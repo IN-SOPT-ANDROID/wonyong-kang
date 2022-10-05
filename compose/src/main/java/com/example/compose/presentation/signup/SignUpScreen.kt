@@ -9,30 +9,40 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.example.compose.component.SoptButton
 import com.example.compose.component.SoptTextField
 import com.example.compose.ui.theme.INSOPTAndroidPracticeTheme
-import com.example.data.datasource.local.UserDataSource
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun SignUpScreen(
-    signUpViewModel: SignUpViewModel = hiltViewModel()
+    signUpViewModel: SignUpViewModel = hiltViewModel(),
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    toLogin: (Boolean) -> Unit
 ) {
-    val uiState by signUpViewModel.signUpUiState.collectAsStateWithLifecycle()
-    if (uiState.moveToLogin) {
-        signUpViewModel.onEvent(SignUpEvent.MoveToLogin)
-        /* finish() 추가 */
+    val uiState by signUpViewModel.signUpUiState.collectAsState()
+    LaunchedEffect(true) {
+        signUpViewModel.signUpUiState.flowWithLifecycle(lifecycleOwner.lifecycle)
+            .onEach {
+                if (it.moveToLogin) {
+                    signUpViewModel.onEvent(SignUpEvent.MoveToLogin)
+                    toLogin(true)
+                }
+            }
+            .launchIn(lifecycleOwner.lifecycleScope)
     }
     Column(
         modifier = Modifier
@@ -98,6 +108,6 @@ fun SignUpScreen(
 @Composable
 fun SignUpScreenPreview() {
     INSOPTAndroidPracticeTheme {
-        SignUpScreen(SignUpViewModel(UserDataSource(LocalContext.current)))
+        SignUpScreen(toLogin = {})
     }
 }

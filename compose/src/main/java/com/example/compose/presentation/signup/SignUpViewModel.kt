@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.data.datasource.local.UserDataSource
 import com.example.data.entity.User
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
