@@ -2,9 +2,11 @@ package com.example.data.datasource.local
 
 import android.content.Context
 import com.example.data.entity.User
-import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class UserDataSource @Inject constructor(
     @ApplicationContext private val context: Context
@@ -20,15 +22,15 @@ class UserDataSource @Inject constructor(
     }
 
     fun setUserInfo(user: User) {
-        val userToJson = Gson().toJson(user)
+        val userToJson = Json.encodeToString(user)
         preferences.edit()
             .putString(USER_INFO, userToJson)
             .apply()
     }
 
-    fun getUserInfo(): User? {
-        val user = preferences.getString(USER_INFO, "").let { user ->
-            Gson().fromJson(user, User::class.java)
+    fun getUserInfo(): User {
+        val user = preferences.getString(USER_INFO, EMPTY_USER).let { user ->
+            Json.decodeFromString<User>(user!!)
         }
         return user
     }
@@ -37,5 +39,7 @@ class UserDataSource @Inject constructor(
         const val STORAGE_KEY = "STORAGE_KEY"
         const val AUTO_LOGIN = "AutoLogin"
         const val USER_INFO = "USER_INFO"
+        private val userEmpty = User("", "", "")
+        val EMPTY_USER = Json.encodeToString(userEmpty)
     }
 }
