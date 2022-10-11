@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">INSOPTAndroidPractice</string>
+    <string name="main_title">Welcome to SOPT</string>
+    <string name="main_id">ID</string>
+    <string name="main_pw">비밀번호</string>
+    <string name="main_id_hint">아이디를 입력하세요</string>
+    <string name="main_pw_hint">비밀번호를 입력하세요</string>
+    <string name="main_login">login</string>
+    <string name="main_sign_up">sign up</string>
+    <string name="sign_up_hint">MBTI를 입력하세요</string>
+    <string name="sign_up_mbti">MBTI</string>
+    <string name="sign_up_title">SIGN UP</string>
+    <string name="sign_up_clear">회원가입 완료</string>
+    <string name="sign_up_success">회원가입이 완료되었습니다.</string>
+    <string name="sign_up_fail">다시 입력해주세요.</string>
+    <string name="main_log_out">자동 로그인 해제</string>
 </resources>
