@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.data.datasource.local.UserDataSource
-import com.example.data.entity.User
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import org.sopt.sample.R
@@ -19,16 +18,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        getUserContent()
         logOutOnClick()
-    }
-
-    private fun getUserContent() {
-        intent.apply {
-            val user = getSerializableExtra("user") as User
-            binding.tvMainName.text = String.format("이름: ${user.id}")
-            binding.tvMainMbti.text = String.format("mbti: ${user.mbti}")
-        }
     }
 
     private fun logOutOnClick() {

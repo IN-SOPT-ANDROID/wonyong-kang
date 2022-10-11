@@ -7,14 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.example.data.entity.User
-import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivitySignUpBinding
 import org.sopt.sample.ui.login.LoginActivity
+import org.sopt.sample.util.showSnackBar
 
+@AndroidEntryPoint
 class SignUpActivity : AppCompatActivity() {
     private val signUpViewModel: SignUpViewModel by viewModels()
     private lateinit var binding: ActivitySignUpBinding
@@ -38,29 +39,17 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun eventHandler(uiEvent: UiEvent) {
         when (uiEvent) {
-            is UiEvent.Fail -> showSnackBar(getString(R.string.sign_up_fail))
-            is UiEvent.Success -> {
-                showSnackBar(getString(R.string.sign_up_success))
-                sendUserInfo()
-            }
+            is UiEvent.Fail -> binding.root.showSnackBar(getString(R.string.sign_up_fail))
+            is UiEvent.Success -> sendUserInfo()
         }
     }
 
     private fun sendUserInfo() {
         Intent(this, LoginActivity::class.java).apply {
-            val user = User(
-                id = signUpViewModel.idText.value,
-                pw = signUpViewModel.pwText.value,
-                mbti = signUpViewModel.mbtiText.value
-            )
-            putExtra("user", user)
+            putExtra("isShowSnackBar", true)
         }.also { intent ->
             setResult(RESULT_OK, intent)
             finish()
         }
-    }
-
-    private fun showSnackBar(snackBarText: String) {
-        Snackbar.make(binding.root, snackBarText, Snackbar.LENGTH_SHORT).show()
     }
 }
