@@ -54,17 +54,14 @@ fun LoginScreen(
 ) {
     val uiState by loginViewModel.loginUiState.collectAsState()
     val scaffoldState: ScaffoldState = rememberScaffoldState()
-
     LaunchedEffect(true) {
         if (isSignUp) {
             scaffoldState.snackbarHostState.showSnackbar(message = "회원가입 성공")
         }
-        loginViewModel.loginUiState.flowWithLifecycle(lifecycleOwner.lifecycle)
+        loginViewModel.isLoginEvent.flowWithLifecycle(lifecycleOwner.lifecycle)
             .onEach {
-                if (it.moveToMain) {
-                    Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
-                    toMain()
-                }
+                Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+                toMain()
             }
             .launchIn(lifecycleOwner.lifecycleScope)
     }

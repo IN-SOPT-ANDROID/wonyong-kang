@@ -6,7 +6,10 @@ import com.example.data.datasource.local.UserDataSource
 import com.example.data.entity.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -20,10 +23,14 @@ class LoginViewModel @Inject constructor(
     private val _loginUiState = MutableStateFlow(LoginUiState())
     val loginUiState = _loginUiState.asStateFlow()
 
+    private val _isLoginEvent = MutableSharedFlow<Boolean>()
+    val isLoginEvent = _isLoginEvent.asSharedFlow()
+
     init {
         viewModelScope.launch {
             if (userDataSource.isAutoLogin()) {
-                _loginUiState.value = _loginUiState.value.copy(moveToMain = true)
+                delay(10)
+                _isLoginEvent.emit(true)
                 return@launch
             }
             _userInfo.value = userDataSource.getUserInfo()
@@ -37,7 +44,7 @@ class LoginViewModel @Inject constructor(
                     viewModelScope.launch {
                         userDataSource.setAutoLogin(true)
                         userDataSource.setUserInfo(userInfo.value!!)
-                        _loginUiState.value = _loginUiState.value.copy(moveToMain = true)
+                        _isLoginEvent.emit(true)
                     }
                 }
             }
@@ -49,8 +56,7 @@ class LoginViewModel @Inject constructor(
 
 data class LoginUiState(
     val id: String = "",
-    val pw: String = "",
-    val moveToMain: Boolean = false
+    val pw: String = ""
 )
 
 sealed class LoginEvent {

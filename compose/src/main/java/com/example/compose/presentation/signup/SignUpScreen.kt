@@ -45,12 +45,11 @@ fun SignUpScreen(
 ) {
     val uiState by signUpViewModel.signUpUiState.collectAsState()
     LaunchedEffect(true) {
-        signUpViewModel.signUpUiState.flowWithLifecycle(lifecycleOwner.lifecycle)
+        signUpViewModel.isSignUpEvent
+            .flowWithLifecycle(lifecycleOwner.lifecycle)
             .onEach {
-                if (it.moveToLogin) {
-                    signUpViewModel.dispatch(SignUpEvent.MoveToLogin)
-                    toLogin(true)
-                }
+                signUpViewModel.dispatch(SignUpEvent.MoveToLogin)
+                toLogin(true)
             }
             .launchIn(lifecycleOwner.lifecycleScope)
     }
