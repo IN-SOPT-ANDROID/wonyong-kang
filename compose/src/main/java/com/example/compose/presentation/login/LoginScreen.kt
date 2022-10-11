@@ -96,7 +96,7 @@ fun LoginScreen(
             SoptTextField(
                 text = uiState.id,
                 hint = "아이디를 입력하세요",
-                writeText = { id -> loginViewModel.onEvent(LoginEvent.WriteId(id)) },
+                onTextChange = { id -> loginViewModel.dispatch(LoginEvent.WriteId(id)) },
                 keyboardOptions = KeyboardOptions.Default.copy(
                     capitalization = KeyboardCapitalization.Sentences,
                     autoCorrect = true,
@@ -118,7 +118,7 @@ fun LoginScreen(
             SoptTextField(
                 text = uiState.pw,
                 hint = "비밀번호를 입력하세요",
-                writeText = { pw -> loginViewModel.onEvent(LoginEvent.WritePw(pw)) },
+                onTextChange = { pw -> loginViewModel.dispatch(LoginEvent.WritePw(pw)) },
                 keyboardOptions = KeyboardOptions.Default.copy(
                     capitalization = KeyboardCapitalization.Sentences,
                     autoCorrect = true,
@@ -133,7 +133,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(36.dp))
 
             SoptButton(buttonText = "LOGIN") {
-                loginViewModel.onEvent(LoginEvent.IsLogin)
+                loginViewModel.dispatch(LoginEvent.IsLogin)
             }
             Spacer(modifier = Modifier.height(20.dp))
 

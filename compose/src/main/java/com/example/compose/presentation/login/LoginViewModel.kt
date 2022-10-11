@@ -30,7 +30,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: LoginEvent) {
+    fun dispatch(event: LoginEvent) {
         when (event) {
             is LoginEvent.IsLogin -> {
                 if (userInfo.value != null && loginUiState.value.id == userInfo.value?.id && loginUiState.value.pw == userInfo.value?.pw) {
