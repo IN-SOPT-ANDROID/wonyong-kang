@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "INSOPTAndroidPractice"
 include ':app'
 include ':data'
+include ':compose'
