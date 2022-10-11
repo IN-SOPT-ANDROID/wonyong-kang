@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 class LoginViewModel @Inject constructor(
     private val userDataSource: UserDataSource
 ) : ViewModel() {
-    private val _userInfo: MutableStateFlow<User?> = MutableStateFlow(null)
+    private val _userInfo: MutableStateFlow<User> = MutableStateFlow(EMPTY_USER)
     val userInfo = _userInfo.asStateFlow()
 
     private val _loginUiState = MutableStateFlow(LoginUiState())
@@ -40,10 +40,10 @@ class LoginViewModel @Inject constructor(
     fun dispatch(event: LoginEvent) {
         when (event) {
             is LoginEvent.IsLogin -> {
-                if (userInfo.value != null && loginUiState.value.id == userInfo.value?.id && loginUiState.value.pw == userInfo.value?.pw) {
+                if (userInfo.value.id.isNotEmpty() && loginUiState.value.id == userInfo.value.id && loginUiState.value.pw == userInfo.value.pw) {
                     viewModelScope.launch {
                         userDataSource.setAutoLogin(true)
-                        userDataSource.setUserInfo(userInfo.value!!)
+                        userDataSource.setUserInfo(userInfo.value)
                         _isLoginEvent.emit(true)
                     }
                 }
@@ -51,6 +51,10 @@ class LoginViewModel @Inject constructor(
             is LoginEvent.WriteId -> _loginUiState.value = _loginUiState.value.copy(id = event.id)
             is LoginEvent.WritePw -> _loginUiState.value = _loginUiState.value.copy(pw = event.pw)
         }
+    }
+
+    companion object {
+        val EMPTY_USER = User("", "", "")
     }
 }
 
