@@ -14,6 +14,11 @@
     <string name="sign_up_success">회원가입이 완료되었습니다.</string>
     <string name="sign_up_fail">다시 입력해주세요.</string>
     <string name="main_log_out">자동 로그인 해제</string>
+    <string name="home">home</string>
+    <string name="place">place</string>
+    <string name="profile">profile</string>
 
     <style name="login_success">로그인에 성공했습니다</style>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
