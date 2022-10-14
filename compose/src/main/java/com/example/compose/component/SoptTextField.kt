@@ -26,11 +26,11 @@ import com.example.compose.ui.theme.INSOPTAndroidPracticeTheme
 fun SoptTextField(
     text: String,
     hint: String,
-    singleLine: Boolean = true,
+    isSingleLine: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    writeText: (String) -> Unit
+    onTextChange: (String) -> Unit
 ) {
     BasicTextField(
         modifier = Modifier
@@ -38,9 +38,9 @@ fun SoptTextField(
             .border(BorderStroke(1.dp, Color.Black), MaterialTheme.shapes.medium)
             .padding(8.dp),
         value = text,
-        singleLine = singleLine,
+        singleLine = isSingleLine,
         maxLines = 1,
-        onValueChange = { writeText(it) },
+        onValueChange = { onTextChange(it) },
         textStyle = TextStyle(
             color = Color.Black,
             fontFamily = FontFamily.Default,
@@ -69,6 +69,6 @@ fun SoptTextField(
 @Composable
 private fun SoptTextFieldPreview() {
     INSOPTAndroidPracticeTheme() {
-        SoptTextField(text = "", hint = "hi", writeText = {})
+        SoptTextField(text = "", hint = "hi", onTextChange = {})
     }
 }

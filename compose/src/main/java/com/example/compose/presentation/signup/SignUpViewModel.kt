@@ -5,10 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.data.datasource.local.UserDataSource
 import com.example.data.entity.User
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
@@ -16,8 +18,10 @@ class SignUpViewModel @Inject constructor(
 ) : ViewModel() {
     private val _signUpUiState = MutableStateFlow(SignUpUiState())
     val signUpUiState = _signUpUiState.asStateFlow()
+    private val _isSignUpEvent = MutableSharedFlow<Boolean>()
+    val isSignUpEvent = _isSignUpEvent.asSharedFlow()
 
-    fun onEvent(event: SignUpEvent) {
+    fun dispatch(event: SignUpEvent) {
         when (event) {
             is SignUpEvent.IsSignUp -> isSignUp()
             is SignUpEvent.WriteId ->
@@ -40,7 +44,7 @@ class SignUpViewModel @Inject constructor(
     private fun isSignUp() {
         viewModelScope.launch {
             if (signUpUiState.value.id.length in 6..10 && signUpUiState.value.pw.length in 8..12) {
-                _signUpUiState.value = _signUpUiState.value.copy(moveToLogin = true)
+                _isSignUpEvent.emit(true)
             }
         }
     }
@@ -49,8 +53,7 @@ class SignUpViewModel @Inject constructor(
 data class SignUpUiState(
     val id: String = "",
     val pw: String = "",
-    val mbti: String = "",
-    val moveToLogin: Boolean = false
+    val mbti: String = ""
 )
 
 sealed class SignUpEvent {

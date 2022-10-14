@@ -6,7 +6,10 @@ import com.example.data.datasource.local.UserDataSource
 import com.example.data.entity.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -14,30 +17,34 @@ import kotlinx.coroutines.launch
 class LoginViewModel @Inject constructor(
     private val userDataSource: UserDataSource
 ) : ViewModel() {
-    private val _userInfo: MutableStateFlow<User?> = MutableStateFlow(null)
+    private val _userInfo: MutableStateFlow<User> = MutableStateFlow(EMPTY_USER)
     val userInfo = _userInfo.asStateFlow()
 
     private val _loginUiState = MutableStateFlow(LoginUiState())
     val loginUiState = _loginUiState.asStateFlow()
 
+    private val _isLoginEvent = MutableSharedFlow<Boolean>()
+    val isLoginEvent = _isLoginEvent.asSharedFlow()
+
     init {
         viewModelScope.launch {
             if (userDataSource.isAutoLogin()) {
-                _loginUiState.value = _loginUiState.value.copy(moveToMain = true)
+                delay(10)
+                _isLoginEvent.emit(true)
                 return@launch
             }
             _userInfo.value = userDataSource.getUserInfo()
         }
     }
 
-    fun onEvent(event: LoginEvent) {
+    fun dispatch(event: LoginEvent) {
         when (event) {
             is LoginEvent.IsLogin -> {
-                if (userInfo.value != null && loginUiState.value.id == userInfo.value?.id && loginUiState.value.pw == userInfo.value?.pw) {
+                if (userInfo.value.id.isNotEmpty() && loginUiState.value.id == userInfo.value.id && loginUiState.value.pw == userInfo.value.pw) {
                     viewModelScope.launch {
                         userDataSource.setAutoLogin(true)
-                        userDataSource.setUserInfo(userInfo.value!!)
-                        _loginUiState.value = _loginUiState.value.copy(moveToMain = true)
+                        userDataSource.setUserInfo(userInfo.value)
+                        _isLoginEvent.emit(true)
                     }
                 }
             }
@@ -45,12 +52,15 @@ class LoginViewModel @Inject constructor(
             is LoginEvent.WritePw -> _loginUiState.value = _loginUiState.value.copy(pw = event.pw)
         }
     }
+
+    companion object {
+        val EMPTY_USER = User("", "", "")
+    }
 }
 
 data class LoginUiState(
     val id: String = "",
-    val pw: String = "",
-    val moveToMain: Boolean = false
+    val pw: String = ""
 )
 
 sealed class LoginEvent {
