@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.data.entity.Follower
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ItemFollowerBinding
@@ -20,6 +21,7 @@ class HomeAdapter : ListAdapter<Follower, HomeAdapter.FollowerViewHolder>(follow
             binding.tvFollowerName.text = follower.name
             binding.ivFollowerProfile.load(follower.avatar) {
                 placeholder(R.drawable.ic_person)
+                transformations(CircleCropTransformation())
             }
         }
     }
