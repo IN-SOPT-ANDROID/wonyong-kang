@@ -10,9 +10,17 @@ import coil.transform.CircleCropTransformation
 import com.example.data.entity.Follower
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ItemFollowerBinding
+import org.sopt.sample.databinding.ItemTitleBinding
 
-class HomeAdapter : ListAdapter<Follower, HomeAdapter.FollowerViewHolder>(followerComparator) {
+class HomeAdapter : ListAdapter<Follower, RecyclerView.ViewHolder>(followerComparator) {
     private lateinit var inflater: LayoutInflater
+
+    override fun getItemViewType(position: Int): Int {
+        return when (position) {
+            0 -> TITLE
+            else -> CONTENT
+        }
+    }
 
     class FollowerViewHolder(
         private val binding: ItemFollowerBinding
@@ -26,18 +34,28 @@ class HomeAdapter : ListAdapter<Follower, HomeAdapter.FollowerViewHolder>(follow
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowerViewHolder {
+    class TitleViewHolder(binding: ItemTitleBinding) : RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (!::inflater.isInitialized) inflater = LayoutInflater.from(parent.context)
-        val binding = ItemFollowerBinding.inflate(inflater, parent, false)
-        return FollowerViewHolder(binding)
+        return when (viewType) {
+            TITLE -> TitleViewHolder(ItemTitleBinding.inflate(inflater, parent, false))
+            CONTENT -> FollowerViewHolder(ItemFollowerBinding.inflate(inflater, parent, false))
+            else -> throw IllegalArgumentException("viewType : $viewType")
+        }
     }
 
-    override fun onBindViewHolder(holder: FollowerViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current)
+        when (holder) {
+            is TitleViewHolder -> Unit
+            is FollowerViewHolder -> holder.bind(current)
+        }
     }
 
     companion object {
+        const val TITLE = 0
+        const val CONTENT = 1
         private val followerComparator = object : DiffUtil.ItemCallback<Follower>() {
             override fun areItemsTheSame(oldItem: Follower, newItem: Follower): Boolean {
                 return oldItem.id == newItem.id

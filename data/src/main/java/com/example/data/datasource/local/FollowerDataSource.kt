@@ -18,8 +18,10 @@ class FollowerDataSource @Inject constructor(
         getJsonFollowers()
             .catch { exception -> Log.e("FollowerDataSource", "error : $exception") }
             .collect { jsonFollowers ->
+                val followers = mutableListOf(Follower())
                 val json = Json { ignoreUnknownKeys = true }
-                val followers = json.decodeFromString<List<Follower>>(jsonFollowers)
+                json.decodeFromString<List<Follower>>(jsonFollowers)
+                    .forEach { follower -> followers.add(follower) }
                 emit(followers)
             }
     }
