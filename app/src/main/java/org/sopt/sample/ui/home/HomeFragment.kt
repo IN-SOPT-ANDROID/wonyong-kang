@@ -18,7 +18,6 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding: FragmentHomeBinding
         get() = requireNotNull(_binding) { "${this.javaClass.name} binding error" }
-    private lateinit var homeAdapter: HomeAdapter
     private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
@@ -27,19 +26,18 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        homeAdapter = HomeAdapter()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initAdapter()
+        binding.rvHome.adapter = HomeAdapter()
+        collectFollowers()
     }
 
-    private fun initAdapter() {
-        binding.rvHome.adapter = homeAdapter
+    private fun collectFollowers() {
         homeViewModel.followers.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { followers -> homeAdapter.submitList(followers) }
+            .onEach { followers -> (binding.rvHome.adapter as HomeAdapter).submitList(followers) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
