@@ -28,6 +28,7 @@ class HomeAdapter : ListAdapter<Follower, RecyclerView.ViewHolder>(followerCompa
         fun bind(follower: Follower) {
             binding.tvFollowerName.text = follower.name
             binding.ivFollowerProfile.load(follower.avatar) {
+                fallback(R.drawable.ic_person)
                 placeholder(R.drawable.ic_person)
                 transformations(CircleCropTransformation())
             }
