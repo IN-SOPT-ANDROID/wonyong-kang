@@ -1,21 +1,22 @@
 package com.example.compose.presentation.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +32,8 @@ import com.example.compose.R
 import com.example.compose.navigation.MainContentNavGraph
 import com.example.data.entity.Follower
 import com.ramcosta.composedestinations.annotation.Destination
+import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 @MainContentNavGraph(start = true)
 @Destination("home")
@@ -38,35 +41,49 @@ import com.ramcosta.composedestinations.annotation.Destination
 fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
-    val followers by homeViewModel.followers.collectAsState()
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        item {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                text = stringResource(R.string.home_title),
-                style = MaterialTheme.typography.h6,
-                textAlign = TextAlign.Center
-            )
-        }
-        items(followers) { follower ->
-            FollowerItem(follower = follower)
+    val state = homeViewModel.collectAsState().value
+    val scaffoldState: ScaffoldState = rememberScaffoldState()
+    homeViewModel.collectSideEffect { homeSideEffect ->
+        handleSideEffect(scaffoldState, homeSideEffect)
+    }
+    Scaffold(
+        modifier = Modifier.padding(16.dp),
+        scaffoldState = scaffoldState
+    ) { innerPadding ->
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = innerPadding,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            item {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    text = stringResource(R.string.home_title),
+                    style = MaterialTheme.typography.h6,
+                    textAlign = TextAlign.Center
+                )
+            }
+            itemsIndexed(state.followrs) { index, follower ->
+                FollowerItem(
+                    follower = follower,
+                    index = index,
+                    onClick = homeViewModel::dispatchSideEffect
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun FollowerItem(follower: Follower) {
+private fun FollowerItem(follower: Follower, index: Int, onClick: (Int) -> Unit) {
     Surface(
         elevation = 8.dp
     ) {
         Row(
             modifier = Modifier
+                .clickable { onClick(index) }
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -88,6 +105,16 @@ private fun FollowerItem(follower: Follower) {
             )
         }
     }
+}
+
+private suspend fun handleSideEffect(scaffoldState: ScaffoldState, sideEffect: HomeSideEffect) {
+    when (sideEffect) {
+        is HomeSideEffect.SnackBarMessage -> showSnackBar(scaffoldState, sideEffect.text)
+    }
+}
+
+private suspend fun showSnackBar(scaffoldState: ScaffoldState, text: String) {
+    scaffoldState.snackbarHostState.showSnackbar(message = text)
 }
 
 @Preview(showBackground = true)
