@@ -16,7 +16,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.compose.R
 import com.example.compose.ui.theme.INSOPTAndroidPracticeTheme
+import com.ramcosta.composedestinations.annotation.Destination
 
+@Destination(route = "main")
 @Composable
 fun MainScreen() {
     Column(

@@ -38,19 +38,26 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.example.compose.component.SoptButton
 import com.example.compose.component.SoptTextField
+import com.example.compose.presentation.destinations.MainScreenDestination
+import com.example.compose.presentation.destinations.SignUpScreenDestination
 import com.example.compose.ui.theme.INSOPTAndroidPracticeTheme
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@RootNavGraph(start = true)
+@Destination(route = "login")
 @Composable
 fun LoginScreen(
-    isSignUp: Boolean,
+    isSignUp: Boolean = false,
     loginViewModel: LoginViewModel = hiltViewModel(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     context: Context = LocalContext.current,
     focusManager: FocusManager = LocalFocusManager.current,
-    toSignUp: () -> Unit,
-    toMain: () -> Unit
+    navigator: DestinationsNavigator
 ) {
     val uiState by loginViewModel.loginUiState.collectAsState()
     val scaffoldState: ScaffoldState = rememberScaffoldState()
@@ -61,7 +68,8 @@ fun LoginScreen(
         loginViewModel.isLoginEvent.flowWithLifecycle(lifecycleOwner.lifecycle)
             .onEach {
                 Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
-                toMain()
+                navigator.popBackStack()
+                navigator.navigate(MainScreenDestination)
             }
             .launchIn(lifecycleOwner.lifecycleScope)
     }
@@ -134,7 +142,7 @@ fun LoginScreen(
             }
             Spacer(modifier = Modifier.height(20.dp))
 
-            SoptButton(buttonText = "SIGN UP") { toSignUp() }
+            SoptButton(buttonText = "SIGN UP") { navigator.navigate(SignUpScreenDestination) }
         }
     }
 }
@@ -143,6 +151,6 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     INSOPTAndroidPracticeTheme {
-        LoginScreen(isSignUp = false, toMain = {}, toSignUp = {})
+        LoginScreen(isSignUp = false, navigator = EmptyDestinationsNavigator)
     }
 }
