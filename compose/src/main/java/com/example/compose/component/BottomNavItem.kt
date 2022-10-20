@@ -13,6 +13,7 @@ import com.example.compose.presentation.NavGraphs
 import com.example.compose.presentation.appCurrentDestinationAsState
 import com.example.compose.presentation.startAppDestination
 import com.ramcosta.composedestinations.navigation.navigate
+import com.ramcosta.composedestinations.navigation.popUpTo
 
 @Composable
 fun BottomNavItem(
@@ -30,6 +31,7 @@ fun BottomNavItem(
                 onClick = {
                     navController.navigate(destination.direction) {
                         launchSingleTop = true
+                        popUpTo(destination.direction)
                     }
                 },
                 icon = {
