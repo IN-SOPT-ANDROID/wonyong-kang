@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'com.google.devtools.ksp' version '1.7.10-1.0.6'
 }
 
 android {
@@ -45,10 +46,26 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    applicationVariants.all { variant ->
+        kotlin.sourceSets {
+            getByName(variant.name) {
+                kotlin.srcDir("build/generated/ksp/${variant.name}/kotlin")
+            }
+        }
+    }
 }
 
 dependencies {
     implementation project(':data')
+
+    // orbit
+    implementation("org.orbit-mvi:orbit-core:4.4.0")
+    implementation("org.orbit-mvi:orbit-viewmodel:4.4.0")
+    implementation 'org.orbit-mvi:orbit-compose:4.4.0'
+
+    // Compose Destinations
+    implementation 'io.github.raamcosta.compose-destinations:core:1.7.22-beta'
+    ksp 'io.github.raamcosta.compose-destinations:ksp:1.7.22-beta'
 
     // navigation
     implementation "androidx.navigation:navigation-compose:2.5.2"
