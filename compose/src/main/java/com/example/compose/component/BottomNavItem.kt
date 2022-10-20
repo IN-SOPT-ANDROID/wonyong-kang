@@ -5,6 +5,7 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.compose.navigation.destination.BottomBarDestination
@@ -17,8 +18,12 @@ import com.ramcosta.composedestinations.navigation.navigate
 fun BottomNavItem(
     navController: NavController
 ) {
-    val currentDestination = navController.appCurrentDestinationAsState().value ?: NavGraphs.mainContent.startAppDestination
-    BottomNavigation {
+    val currentDestination = navController.appCurrentDestinationAsState().value
+        ?: NavGraphs.mainContent.startAppDestination
+    BottomNavigation(
+        contentColor = Color.White,
+        backgroundColor = Color.Black
+    ) {
         BottomBarDestination.values().forEach { destination ->
             BottomNavigationItem(
                 selected = currentDestination == destination.direction,
