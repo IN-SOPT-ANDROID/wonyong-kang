@@ -57,6 +57,8 @@ android {
 
 dependencies {
     implementation project(':data')
+    //compose
+    implementation "io.coil-kt:coil-compose:2.2.2"
 
     // orbit
     implementation("org.orbit-mvi:orbit-core:4.4.0")
