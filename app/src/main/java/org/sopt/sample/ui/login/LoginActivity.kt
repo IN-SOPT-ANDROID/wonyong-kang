@@ -2,8 +2,6 @@ package org.sopt.sample.ui.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -11,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.example.data.entity.User
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -19,6 +16,8 @@ import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivityLoginBinding
 import org.sopt.sample.ui.MainActivity
 import org.sopt.sample.ui.signup.SignUpActivity
+import org.sopt.sample.util.showSnackBar
+import org.sopt.sample.util.showToast
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -28,9 +27,14 @@ class LoginActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
         if (result.resultCode == RESULT_OK) {
-            val user = result.data?.getSerializableExtra("user") as User
-            loginViewModel.setUserInfo(user)
+            val isShowSnackBar = result.data?.getBooleanExtra("isShowSnackBar", false) ?: false
+            if (isShowSnackBar) binding.root.showSnackBar(getString(R.string.sign_up_success))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loginViewModel.getUserInfo()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,11 +53,8 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.loginEvent.flowWithLifecycle(lifecycle)
             .onEach { isNextView ->
                 if (isNextView) {
-                    Toast.makeText(this, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+                    showToast(getString(R.string.sign_up_success))
                     Intent(this, MainActivity::class.java)
-                        .apply {
-                            putExtra("user", loginViewModel.userInfo.value)
-                        }
                         .also { intent ->
                             startActivity(intent)
                             finish()

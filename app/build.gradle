@@ -41,6 +41,9 @@ android {
 dependencies {
     implementation project(':data')
 
+    //coil
+    implementation 'io.coil-kt:coil:2.2.2'
+
     // hilt
     implementation "com.google.dagger:hilt-android:2.44"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

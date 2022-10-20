@@ -12,48 +12,19 @@
         android:layout_height="match_parent"
         tools:context=".ui.MainActivity">
 
-        <TextView
-            android:id="@+id/tv_main_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/iv_main_profile"
-            app:layout_constraintStart_toStartOf="@+id/iv_main_profile"
-            app:layout_constraintTop_toBottomOf="@+id/iv_main_profile"
-            tools:text="이름: 강원용" />
-
-        <TextView
-            android:id="@+id/tv_main_mbti"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_main_name"
-            app:layout_constraintStart_toStartOf="@+id/tv_main_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_main_name"
-            tools:text="MBTI: ISTJ" />
-
-        <ImageView
-            android:id="@+id/iv_main_profile"
-            android:layout_width="100dp"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fc_main"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="72dp"
-            android:src="@drawable/ic_launcher_foreground"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bot_nav_main"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btn_main_log_out"
-            android:layout_width="wrap_content"
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bot_nav_main"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:text="@string/main_log_out"
-            app:layout_constraintEnd_toEndOf="@+id/tv_main_mbti"
-            app:layout_constraintStart_toStartOf="@+id/tv_main_mbti"
-            app:layout_constraintTop_toBottomOf="@+id/tv_main_mbti" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/main_menu" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
