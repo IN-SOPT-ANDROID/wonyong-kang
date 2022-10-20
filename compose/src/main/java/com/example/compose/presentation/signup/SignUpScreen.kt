@@ -32,6 +32,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.example.compose.component.SoptButton
 import com.example.compose.component.SoptTextField
+import com.example.compose.navigation.AuthNavGraph
 import com.example.compose.presentation.destinations.LoginScreenDestination
 import com.example.compose.ui.theme.INSOPTAndroidPracticeTheme
 import com.ramcosta.composedestinations.annotation.Destination
@@ -40,6 +41,7 @@ import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@AuthNavGraph
 @Destination(route = "signUp")
 @Composable
 fun SignUpScreen(

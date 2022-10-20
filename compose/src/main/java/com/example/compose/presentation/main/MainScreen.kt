@@ -1,48 +1,28 @@
 package com.example.compose.presentation.main
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.example.compose.R
+import androidx.navigation.compose.rememberNavController
+import com.example.compose.component.BottomNavItem
+import com.example.compose.presentation.NavGraphs
 import com.example.compose.ui.theme.INSOPTAndroidPracticeTheme
+import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination(route = "main")
 @Composable
 fun MainScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+    val navController = rememberNavController()
+    Scaffold(
+        bottomBar = { BottomNavItem(navController = navController) }
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
-            contentDescription = ""
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "이름: 강원용",
-            style = MaterialTheme.typography.body1
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "MBTI: ISTJ",
-            style = MaterialTheme.typography.body1
+        DestinationsNavHost(
+            modifier = Modifier.padding(it),
+            navGraph = NavGraphs.mainContent,
+            navController = navController
         )
     }
 }

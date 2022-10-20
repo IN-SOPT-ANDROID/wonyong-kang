@@ -38,17 +38,17 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.example.compose.component.SoptButton
 import com.example.compose.component.SoptTextField
+import com.example.compose.navigation.AuthNavGraph
 import com.example.compose.presentation.destinations.MainScreenDestination
 import com.example.compose.presentation.destinations.SignUpScreenDestination
 import com.example.compose.ui.theme.INSOPTAndroidPracticeTheme
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-@RootNavGraph(start = true)
+@AuthNavGraph(start = true)
 @Destination(route = "login")
 @Composable
 fun LoginScreen(
@@ -69,7 +69,7 @@ fun LoginScreen(
             .onEach {
                 Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
                 navigator.popBackStack()
-                navigator.navigate(MainScreenDestination)
+                navigator.navigate(MainScreenDestination.route)
             }
             .launchIn(lifecycleOwner.lifecycleScope)
     }
