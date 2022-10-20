@@ -29,7 +29,6 @@ class LoginViewModel @Inject constructor(
             if (userDataSource.isAutoLogin()) {
                 delay(10)
                 _loginEvent.emit(true)
-                return@launch
             }
         }
     }
