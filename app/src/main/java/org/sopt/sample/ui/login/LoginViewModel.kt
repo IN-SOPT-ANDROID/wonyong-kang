@@ -28,23 +28,22 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             if (userDataSource.isAutoLogin()) {
                 delay(10)
-                _userInfo.value = userDataSource.getUserInfo()
                 _loginEvent.emit(true)
             }
         }
     }
 
-    fun setUserInfo(user: User) {
-        _userInfo.value = user
-    }
-
     fun loginOnClick() {
         viewModelScope.launch {
-            if (idText.value == userInfo.value?.id && pwText.value == userInfo.value?.pw) {
+            if (userInfo.value != null && idText.value == userInfo.value?.id && pwText.value == userInfo.value?.pw) {
                 userDataSource.setAutoLogin(true)
                 userDataSource.setUserInfo(userInfo.value!!)
                 _loginEvent.emit(true)
             }
         }
+    }
+
+    fun getUserInfo() {
+        _userInfo.value = userDataSource.getUserInfo()
     }
 }

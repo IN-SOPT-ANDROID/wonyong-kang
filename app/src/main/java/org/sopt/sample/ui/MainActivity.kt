@@ -1,41 +1,42 @@
 package org.sopt.sample.ui
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.example.data.datasource.local.UserDataSource
-import com.example.data.entity.User
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivityMainBinding
+import org.sopt.sample.ui.home.HomeFragment
+import org.sopt.sample.ui.place.PlaceFragment
+import org.sopt.sample.ui.profile.ProfileFragment
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    @Inject
-    lateinit var localDataSource: UserDataSource
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        getUserContent()
-        logOutOnClick()
+        navigateTo<HomeFragment>()
+        initBottomNavigation()
     }
 
-    private fun getUserContent() {
-        intent.apply {
-            val user = getSerializableExtra("user") as User
-            binding.tvMainName.text = String.format("이름: ${user.id}")
-            binding.tvMainMbti.text = String.format("mbti: ${user.mbti}")
+    private fun initBottomNavigation() {
+        binding.botNavMain.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.menu_home -> navigateTo<HomeFragment>()
+                R.id.menu_place -> navigateTo<PlaceFragment>()
+                R.id.menu_person -> navigateTo<ProfileFragment>()
+            }
+            return@setOnItemSelectedListener true
         }
     }
 
-    private fun logOutOnClick() {
-        binding.btnMainLogOut.setOnClickListener {
-            localDataSource.setAutoLogin(false)
-            Toast.makeText(this, "자동 로그인 해제", Toast.LENGTH_SHORT).show()
-            finish()
+    private inline fun <reified T : Fragment> navigateTo() {
+        supportFragmentManager.commit {
+            replace<T>(R.id.fc_main, T::class.java.canonicalName)
         }
     }
 }
