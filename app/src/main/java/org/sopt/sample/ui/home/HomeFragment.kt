@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
 
     private fun collectFollowers() {
         homeViewModel.followers.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach((binding.rvHome.adapter as HomeAdapter)::submitList)
+            .onEach((requireNotNull(binding.rvHome.adapter as HomeAdapter) { "adapter null" })::submitList)
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
