@@ -47,19 +47,20 @@ fun HomeScreen(
         handleSideEffect(scaffoldState, homeSideEffect)
     }
     Scaffold(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier,
         scaffoldState = scaffoldState
     ) { innerPadding ->
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = innerPadding,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(innerPadding),
                     text = stringResource(R.string.home_title),
                     style = MaterialTheme.typography.h6,
                     textAlign = TextAlign.Center
