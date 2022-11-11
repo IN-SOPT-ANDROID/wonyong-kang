@@ -32,16 +32,23 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.example.compose.component.SoptButton
 import com.example.compose.component.SoptTextField
+import com.example.compose.navigation.AuthNavGraph
+import com.example.compose.presentation.destinations.LoginScreenDestination
 import com.example.compose.ui.theme.INSOPTAndroidPracticeTheme
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@AuthNavGraph
+@Destination(route = "signUp")
 @Composable
 fun SignUpScreen(
     signUpViewModel: SignUpViewModel = hiltViewModel(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     focusManager: FocusManager = LocalFocusManager.current,
-    toLogin: (Boolean) -> Unit
+    navigator: DestinationsNavigator
 ) {
     val uiState by signUpViewModel.signUpUiState.collectAsState()
     LaunchedEffect(true) {
@@ -49,7 +56,8 @@ fun SignUpScreen(
             .flowWithLifecycle(lifecycleOwner.lifecycle)
             .onEach {
                 signUpViewModel.dispatch(SignUpEvent.MoveToLogin)
-                toLogin(true)
+                navigator.popBackStack(route = LoginScreenDestination.route, inclusive = true)
+                navigator.navigate(LoginScreenDestination(true))
             }
             .launchIn(lifecycleOwner.lifecycleScope)
     }
@@ -145,6 +153,6 @@ fun SignUpScreen(
 @Composable
 fun SignUpScreenPreview() {
     INSOPTAndroidPracticeTheme {
-        SignUpScreen(toLogin = {})
+        SignUpScreen(navigator = EmptyDestinationsNavigator)
     }
 }
