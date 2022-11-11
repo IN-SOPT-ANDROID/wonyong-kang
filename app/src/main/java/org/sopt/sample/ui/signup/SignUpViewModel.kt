@@ -2,9 +2,9 @@ package org.sopt.sample.ui.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.datasource.local.AutoLoginDataSource
-import com.example.data.entity.User
+import com.example.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -12,18 +12,17 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val userDataSource: AutoLoginDataSource
+    private val authRepository: AuthRepository
 ) : ViewModel() {
     private val _signUpEvent = MutableSharedFlow<UiEvent>()
     val signUpEvent = _signUpEvent.asSharedFlow()
 
     val idText = MutableStateFlow("")
     val pwText = MutableStateFlow("")
-    val mbtiText = MutableStateFlow("")
+    val nameText = MutableStateFlow("")
 
     private val isSignUp = combine(idText, pwText) { id, pw ->
         id.length in 6..10 && pw.length in 8..12
@@ -32,9 +31,9 @@ class SignUpViewModel @Inject constructor(
     fun signUpButtonOnClick() {
         viewModelScope.launch {
             if (isSignUp.value) {
-                val user = User(id = idText.value, pw = pwText.value, mbti = mbtiText.value)
-                userDataSource.setUserInfo(user)
-                _signUpEvent.emit(UiEvent.Success)
+                authRepository.postSignUp(idText.value, pwText.value, nameText.value)
+                    .onSuccess { _signUpEvent.emit(UiEvent.Success) }
+                    .onFailure { _signUpEvent.emit(UiEvent.Fail) }
             } else {
                 _signUpEvent.emit(UiEvent.Fail)
             }
