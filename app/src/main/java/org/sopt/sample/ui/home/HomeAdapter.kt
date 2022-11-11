@@ -26,7 +26,7 @@ class HomeAdapter : ListAdapter<Follower, RecyclerView.ViewHolder>(followerCompa
         private val binding: ItemFollowerBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(follower: Follower) {
-            binding.tvFollowerName.text = follower.name
+            binding.tvFollowerName.text = follower.lastName
             binding.ivFollowerProfile.load(follower.avatar) {
                 fallback(R.drawable.ic_person)
                 placeholder(R.drawable.ic_person)
