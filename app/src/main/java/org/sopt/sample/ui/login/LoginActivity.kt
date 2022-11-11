@@ -32,11 +32,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        loginViewModel.getUserInfo()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding =
@@ -46,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
                     lifecycleOwner = this@LoginActivity
                 }
         collectLoginEvent()
+        loginViewModel.isAutoLogin()
         signUpButtonOnClick()
     }
 
