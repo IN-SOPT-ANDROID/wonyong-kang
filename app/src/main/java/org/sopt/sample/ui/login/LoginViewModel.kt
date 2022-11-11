@@ -2,7 +2,7 @@ package org.sopt.sample.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.datasource.local.UserDataSource
+import com.example.data.datasource.local.AutoLoginDataSource
 import com.example.data.entity.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val userDataSource: UserDataSource
+    private val userDataSource: AutoLoginDataSource
 ) : ViewModel() {
     private val _userInfo: MutableStateFlow<User?> = MutableStateFlow(null)
     val userInfo = _userInfo.asStateFlow()

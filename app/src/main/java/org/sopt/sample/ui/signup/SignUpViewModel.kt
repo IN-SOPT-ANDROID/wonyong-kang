@@ -2,7 +2,7 @@ package org.sopt.sample.ui.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.datasource.local.UserDataSource
+import com.example.data.datasource.local.AutoLoginDataSource
 import com.example.data.entity.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val userDataSource: UserDataSource
+    private val userDataSource: AutoLoginDataSource
 ) : ViewModel() {
     private val _signUpEvent = MutableSharedFlow<UiEvent>()
     val signUpEvent = _signUpEvent.asSharedFlow()
