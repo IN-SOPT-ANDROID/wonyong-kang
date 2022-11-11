@@ -5,11 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -19,6 +22,9 @@ class LoginViewModel @Inject constructor(
     val loginEvent = _loginEvent.asSharedFlow()
     val idText = MutableStateFlow("")
     val pwText = MutableStateFlow("")
+    val isSignUp = combine(idText, pwText) { id, pw ->
+        id.length in 6..10 && pw.length in 8..12
+    }.stateIn(started = SharingStarted.Eagerly, scope = viewModelScope, initialValue = false)
 
     fun isAutoLogin() {
         viewModelScope.launch {

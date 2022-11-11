@@ -98,14 +98,17 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_sign_up_name"
             tools:layout_editor_absoluteX="16dp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_sign_up_clear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="24dp"
+            android:background="@{vm.isSignUp ? @color/purple_200 : @color/gray}"
+            android:clickable="@{vm.isSignUp}"
             android:onClick="@{()->vm.signUpButtonOnClick()}"
             android:text="@string/sign_up_clear"
+            android:textColor="@{vm.isSignUp ? @color/black : @color/white}"
             app:layout_constraintTop_toBottomOf="@+id/et_sign_up_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
