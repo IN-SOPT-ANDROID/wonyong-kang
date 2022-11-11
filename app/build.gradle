@@ -19,6 +19,7 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "BASE_URL", properties["BASE_URL"]
+        buildConfigField "String", "REQRES_URL", properties["REQRES_URL"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
