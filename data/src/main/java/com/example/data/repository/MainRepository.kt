@@ -1,7 +1,9 @@
 package com.example.data.repository
 
+import androidx.paging.PagingData
 import com.example.data.entity.Follower
+import kotlinx.coroutines.flow.Flow
 
 interface MainRepository {
-    suspend fun getFollowers(page: Int): Result<List<Follower>>
+    fun getFollowersStream(): Flow<PagingData<Follower>>
 }

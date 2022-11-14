@@ -8,6 +8,6 @@ interface MainService {
     @GET("users?page?per_page")
     suspend fun getFollowers(
         @Query("page") page: Int,
-        @Query("per_page") perPage: Int = 20
+        @Query("per_page") perPage: Int = 3
     ): FollowersResponse
 }
