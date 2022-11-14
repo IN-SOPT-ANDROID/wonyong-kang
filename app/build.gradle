@@ -44,9 +44,7 @@ android {
 
 dependencies {
     implementation project(':data')
-
-    def paging_version = "3.1.1"
-    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation 'androidx.paging:paging-runtime:3.1.1'
 
     // kotlin serialization
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0'
@@ -56,28 +54,28 @@ dependencies {
     implementation 'io.coil-kt:coil:2.2.2'
 
     // hilt
-    implementation "com.google.dagger:hilt-android:2.44"
+    implementation 'com.google.dagger:hilt-android:2.44'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.security:security-crypto-ktx:1.1.0-alpha03'
-    kapt "com.google.dagger:hilt-compiler:2.44"
+    kapt 'com.google.dagger:hilt-compiler:2.44'
 
     // ktx
-    implementation "androidx.activity:activity-ktx:1.5.1"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.0-alpha01"
-    implementation "androidx.fragment:fragment-ktx:1.5.3"
+    implementation 'androidx.activity:activity-ktx:1.5.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.0-alpha01'
+    implementation 'androidx.fragment:fragment-ktx:1.5.3'
 
     // recyclerview
-    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     // coroutine
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
     // network
-    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
-    implementation "com.google.code.gson:gson:2.9.0"
-    implementation "com.squareup.retrofit2:retrofit:2.9.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     // coil
     implementation "io.coil-kt:coil:2.2.2"

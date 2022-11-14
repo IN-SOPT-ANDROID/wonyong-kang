@@ -55,6 +55,8 @@ class LoginActivity : AppCompatActivity() {
                             startActivity(intent)
                             finish()
                         }
+                } else {
+                    showToast(getString(R.string.sign_up_fail))
                 }
             }
             .launchIn(lifecycleScope)

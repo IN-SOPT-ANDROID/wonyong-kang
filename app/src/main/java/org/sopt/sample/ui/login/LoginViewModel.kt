@@ -41,7 +41,10 @@ class LoginViewModel @Inject constructor(
                     authRepository.setAutoLogin(true)
                     _loginEvent.emit(true)
                 }
-                .onFailure { Log.e(TAG, it.message.toString()) }
+                .onFailure {
+                    _loginEvent.emit(false)
+                    Log.e(TAG, it.message.toString())
+                }
         }
     }
 
