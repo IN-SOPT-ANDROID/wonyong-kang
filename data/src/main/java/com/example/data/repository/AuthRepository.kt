@@ -4,8 +4,8 @@ import com.example.data.entity.response.SignInResponse
 import com.example.data.entity.response.SignUpResponse
 
 interface AuthRepository {
-    suspend fun isAutoLogin(): Boolean
-    suspend fun setAutoLogin(isAutoLogin: Boolean)
+    fun isAutoLogin(): Boolean
+    fun setAutoLogin(isAutoLogin: Boolean)
     suspend fun postSignIn(
         email: String,
         password: String

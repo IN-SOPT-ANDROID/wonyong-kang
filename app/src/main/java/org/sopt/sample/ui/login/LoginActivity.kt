@@ -41,8 +41,8 @@ class LoginActivity : AppCompatActivity() {
                     lifecycleOwner = this@LoginActivity
                 }
         collectLoginEvent()
-        loginViewModel.isAutoLogin()
         signUpButtonOnClick()
+        loginViewModel.isAutoLogin()
     }
 
     private fun collectLoginEvent() {

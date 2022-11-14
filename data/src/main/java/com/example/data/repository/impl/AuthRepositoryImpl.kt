@@ -13,8 +13,8 @@ class AuthRepositoryImpl @Inject constructor(
     private val authDataSource: AuthDataSource,
     private val isAutoLoginDataSource: AutoLoginDataSource
 ) : AuthRepository {
-    override suspend fun isAutoLogin(): Boolean = isAutoLoginDataSource.isAutoLogin
-    override suspend fun setAutoLogin(isAutoLogin: Boolean) {
+    override fun isAutoLogin(): Boolean = isAutoLoginDataSource.isAutoLogin
+    override fun setAutoLogin(isAutoLogin: Boolean) {
         isAutoLoginDataSource.isAutoLogin = isAutoLogin
     }
 
