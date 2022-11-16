@@ -13,6 +13,7 @@ import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.sopt.sample.BuildConfig
 import org.sopt.sample.BuildConfig.BASE_URL
 import org.sopt.sample.BuildConfig.REQRES_URL
 import org.sopt.sample.di.type.RetrofitType
@@ -40,16 +41,22 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesOkHttpClient(interceptor: Interceptor): OkHttpClient =
-        OkHttpClient.Builder()
+    fun providesOkHttpClient(interceptor: Interceptor): OkHttpClient {
+        val client = OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
             .addInterceptor(interceptor)
-            .addInterceptor(
-                HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+        
+        if (BuildConfig.DEBUG) {
+            client.addInterceptor(
+                HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                }
             )
-            .build()
+        }
+        return client.build()
+    }
 
     @Provides
     @Singleton
