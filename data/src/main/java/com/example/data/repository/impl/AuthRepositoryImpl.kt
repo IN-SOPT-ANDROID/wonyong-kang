@@ -11,11 +11,11 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val authDataSource: AuthDataSource,
-    private val isAutoLoginDataSource: AutoLoginDataSource
+    private val autoLoginDataSource: AutoLoginDataSource
 ) : AuthRepository {
-    override fun isAutoLogin(): Boolean = isAutoLoginDataSource.isAutoLogin
+    override fun isAutoLogin(): Boolean = autoLoginDataSource.isAutoLogin
     override fun setAutoLogin(isAutoLogin: Boolean) {
-        isAutoLoginDataSource.isAutoLogin = isAutoLogin
+        autoLoginDataSource.isAutoLogin = isAutoLogin
     }
 
     override suspend fun postSignIn(email: String, password: String): Result<SignInResponse> =
