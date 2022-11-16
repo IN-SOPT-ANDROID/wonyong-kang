@@ -15,6 +15,9 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.sopt.sample.BuildConfig.BASE_URL
 import org.sopt.sample.BuildConfig.REQRES_URL
+import org.sopt.sample.di.type.RetrofitType
+import org.sopt.sample.di.type.RetrofitType.REQ_RES
+import org.sopt.sample.di.type.RetrofitType.SOPT
 import retrofit2.Retrofit
 
 @Module
@@ -50,7 +53,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @SoptRetrofit
+    @Retrofit2(SOPT)
     fun providesSoptRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -60,7 +63,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @ReqResRetrofit
+    @Retrofit2(REQ_RES)
     fun providesReqResRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(REQRES_URL)
@@ -72,7 +75,4 @@ object NetworkModule {
 }
 
 @Qualifier
-annotation class SoptRetrofit
-
-@Qualifier
-annotation class ReqResRetrofit
+annotation class Retrofit2(val type: RetrofitType)
