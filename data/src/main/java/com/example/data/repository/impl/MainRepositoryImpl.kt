@@ -14,7 +14,7 @@ class MainRepositoryImpl @Inject constructor(
 ) : MainRepository {
     override fun getFollowersStream(): Flow<PagingData<Follower>> =
         Pager(
-            config = PagingConfig(pageSize = 3),
+            config = PagingConfig(pageSize = 30),
             pagingSourceFactory = { reqResPagingSource }
         ).flow
 }

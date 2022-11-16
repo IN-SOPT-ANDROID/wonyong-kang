@@ -4,8 +4,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.data.entity.Follower
 import com.example.data.service.MainService
-import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
 
 class ReqResPagingSource @Inject constructor(
@@ -19,18 +17,16 @@ class ReqResPagingSource @Inject constructor(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Follower> {
-        val nextPageNumber = params.key ?: STARTING_PAGE_INDEX
-        return try {
-            val response = mainService.getFollowers(nextPageNumber)
+        val key = params.key ?: STARTING_PAGE_INDEX
+        return runCatching {
+            val response = mainService.getFollowers(key).data
             LoadResult.Page(
-                data = response.data,
-                prevKey = null,
-                nextKey = if (nextPageNumber < 4) nextPageNumber + 1 else null
+                data = response,
+                prevKey = if (key == STARTING_PAGE_INDEX) null else key - 1,
+                nextKey = if (response.isEmpty()) null else key + 1
             )
-        } catch (exception: IOException) {
-            LoadResult.Error(exception)
-        } catch (exception: HttpException) {
-            LoadResult.Error(exception)
+        }.getOrElse {
+            LoadResult.Error(it)
         }
     }
 
