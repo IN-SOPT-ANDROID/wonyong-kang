@@ -4,22 +4,20 @@ import com.example.data.repository.AuthRepository
 import com.example.data.repository.MainRepository
 import com.example.data.repository.impl.AuthRepositoryImpl
 import com.example.data.repository.impl.MainRepositoryImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
-    @Provides
+abstract class RepositoryModule {
+    @Binds
     @Singleton
-    fun providesAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository =
-        authRepositoryImpl
+    abstract fun providesAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun providesMainRepository(mainRepositoryImpl: MainRepositoryImpl): MainRepository =
-        mainRepositoryImpl
+    abstract fun providesMainRepository(mainRepositoryImpl: MainRepositoryImpl): MainRepository
 }
