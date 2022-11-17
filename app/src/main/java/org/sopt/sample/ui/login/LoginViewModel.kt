@@ -25,7 +25,11 @@ class LoginViewModel @Inject constructor(
     val pwText = MutableStateFlow("")
     val isSignUp = combine(idText, pwText) { id, pw ->
         id.length in 6..10 && pw.length in 8..12
-    }.stateIn(started = SharingStarted.Eagerly, scope = viewModelScope, initialValue = false)
+    }.stateIn(
+        started = SharingStarted.WhileSubscribed(5000L),
+        scope = viewModelScope,
+        initialValue = false
+    )
 
     fun isAutoLogin() {
         viewModelScope.launch {
