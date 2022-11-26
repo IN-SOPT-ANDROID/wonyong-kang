@@ -1,49 +1,58 @@
 package org.sopt.sample.ui.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.datasource.local.UserDataSource
-import com.example.data.entity.User
+import com.example.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val userDataSource: UserDataSource
+    private val authRepository: AuthRepository
 ) : ViewModel() {
-    private val _userInfo: MutableStateFlow<User?> = MutableStateFlow(null)
-    val userInfo = _userInfo.asStateFlow()
     private val _loginEvent = MutableSharedFlow<Boolean>()
     val loginEvent = _loginEvent.asSharedFlow()
     val idText = MutableStateFlow("")
     val pwText = MutableStateFlow("")
+    val isSignUp = combine(idText, pwText) { id, pw ->
+        id.length in 6..10 && pw.length in 8..12
+    }.stateIn(
+        started = SharingStarted.WhileSubscribed(5000L),
+        scope = viewModelScope,
+        initialValue = false
+    )
 
-    init {
+    fun isAutoLogin() {
         viewModelScope.launch {
-            if (userDataSource.isAutoLogin()) {
-                delay(10)
-                _loginEvent.emit(true)
-            }
+            delay(10)
+            if (authRepository.isAutoLogin()) _loginEvent.emit(true)
         }
     }
 
     fun loginOnClick() {
         viewModelScope.launch {
-            if (userInfo.value != null && idText.value == userInfo.value?.id && pwText.value == userInfo.value?.pw) {
-                userDataSource.setAutoLogin(true)
-                userDataSource.setUserInfo(userInfo.value!!)
-                _loginEvent.emit(true)
-            }
+            authRepository.postSignIn(idText.value, pwText.value)
+                .onSuccess {
+                    authRepository.setAutoLogin(true)
+                    _loginEvent.emit(true)
+                }
+                .onFailure {
+                    _loginEvent.emit(false)
+                    Log.e(TAG, it.message.toString())
+                }
         }
     }
 
-    fun getUserInfo() {
-        _userInfo.value = userDataSource.getUserInfo()
+    companion object {
+        private const val TAG = "LoginViewModel"
     }
 }

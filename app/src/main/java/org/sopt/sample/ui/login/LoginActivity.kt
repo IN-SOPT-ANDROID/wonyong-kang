@@ -32,11 +32,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        loginViewModel.getUserInfo()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding =
@@ -47,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
                 }
         collectLoginEvent()
         signUpButtonOnClick()
+        loginViewModel.isAutoLogin()
     }
 
     private fun collectLoginEvent() {
@@ -59,6 +55,8 @@ class LoginActivity : AppCompatActivity() {
                             startActivity(intent)
                             finish()
                         }
+                } else {
+                    showToast(getString(R.string.sign_up_fail))
                 }
             }
             .launchIn(lifecycleScope)

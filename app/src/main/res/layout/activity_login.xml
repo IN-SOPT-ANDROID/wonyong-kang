@@ -75,14 +75,17 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_login_pw"
             tools:layout_editor_absoluteX="31dp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="32dp"
+            android:background="@{vm.isSignUp ? @color/purple_200 : @color/gray}"
+            android:clickable="@{vm.isSignUp}"
             android:onClick="@{()->vm.loginOnClick()}"
             android:text="@string/main_login"
+            android:textColor="@{vm.isSignUp ? @color/black : @color/white}"
             app:layout_constraintTop_toBottomOf="@+id/et_login_pw"
             tools:layout_editor_absoluteX="-16dp" />
 

@@ -2,8 +2,8 @@ package org.sopt.sample.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -12,7 +12,7 @@ import org.sopt.sample.R
 import org.sopt.sample.databinding.ItemFollowerBinding
 import org.sopt.sample.databinding.ItemTitleBinding
 
-class HomeAdapter : ListAdapter<Follower, RecyclerView.ViewHolder>(followerComparator) {
+class HomeAdapter : PagingDataAdapter<Follower, RecyclerView.ViewHolder>(followerComparator) {
     private lateinit var inflater: LayoutInflater
 
     override fun getItemViewType(position: Int): Int {
@@ -26,7 +26,7 @@ class HomeAdapter : ListAdapter<Follower, RecyclerView.ViewHolder>(followerCompa
         private val binding: ItemFollowerBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(follower: Follower) {
-            binding.tvFollowerName.text = follower.name
+            binding.tvFollowerName.text = follower.lastName
             binding.ivFollowerProfile.load(follower.avatar) {
                 fallback(R.drawable.ic_person)
                 placeholder(R.drawable.ic_person)
@@ -50,7 +50,7 @@ class HomeAdapter : ListAdapter<Follower, RecyclerView.ViewHolder>(followerCompa
         val current = getItem(position)
         when (holder) {
             is TitleViewHolder -> Unit
-            is FollowerViewHolder -> holder.bind(current)
+            is FollowerViewHolder -> if (current != null) holder.bind(current)
         }
     }
 

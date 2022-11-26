@@ -2,7 +2,7 @@ package com.example.compose.presentation.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.datasource.local.UserDataSource
+import com.example.data.datasource.local.AutoLoginDataSource
 import com.example.data.entity.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val userDataSource: UserDataSource
+    private val userDataSource: AutoLoginDataSource
 ) : ViewModel() {
     private val _signUpUiState = MutableStateFlow(SignUpUiState())
     val signUpUiState = _signUpUiState.asStateFlow()

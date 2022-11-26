@@ -4,7 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class User(
-    val id: String,
-    val pw: String,
-    val mbti: String
+    val id: Int,
+    val name: String,
+    val profileImage: String?,
+    val bio: String?,
+    val email: String,
+    val password: String
 )

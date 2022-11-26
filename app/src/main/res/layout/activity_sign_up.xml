@@ -76,36 +76,39 @@
             tools:layout_editor_absoluteX="27dp" />
 
         <TextView
-            android:id="@+id/tv_sign_up_mbti"
+            android:id="@+id/tv_sign_up_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="@string/sign_up_mbti"
+            android:text="@string/sign_up_name"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/et_sign_up_pw"
             app:layout_constraintTop_toBottomOf="@+id/et_sign_up_pw" />
 
         <EditText
-            android:id="@+id/et_sign_up_mbti"
+            android:id="@+id/et_sign_up_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
             android:hint="@string/sign_up_hint"
             android:maxLines="1"
-            android:text="@={vm.mbtiText}"
-            app:layout_constraintTop_toBottomOf="@+id/tv_sign_up_mbti"
+            android:text="@={vm.nameText}"
+            app:layout_constraintTop_toBottomOf="@+id/tv_sign_up_name"
             tools:layout_editor_absoluteX="16dp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_sign_up_clear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="24dp"
+            android:background="@{vm.isSignUp ? @color/purple_200 : @color/gray}"
+            android:clickable="@{vm.isSignUp}"
             android:onClick="@{()->vm.signUpButtonOnClick()}"
             android:text="@string/sign_up_clear"
-            app:layout_constraintTop_toBottomOf="@+id/et_sign_up_mbti" />
+            android:textColor="@{vm.isSignUp ? @color/black : @color/white}"
+            app:layout_constraintTop_toBottomOf="@+id/et_sign_up_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
