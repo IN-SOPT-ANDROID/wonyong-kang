@@ -60,6 +60,7 @@ class HomeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             homeAdapter.loadStateFlow.collect {
                 binding.homeProgressBar.isVisible = it.refresh is LoadState.Loading
+                binding.homeError.isVisible = it.refresh is LoadState.Error
             }
         }
     }
