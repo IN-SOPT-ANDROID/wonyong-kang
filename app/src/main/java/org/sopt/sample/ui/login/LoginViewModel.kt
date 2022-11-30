@@ -33,7 +33,7 @@ class LoginViewModel @Inject constructor(
         initialValue = false
     )
     val isPwValid = pwText.map { pwText ->
-        pwText.matches("^(?=.*[a-zA-Z])(?=.*[0-9]).{6,10}\$".toRegex()) || pwText.isEmpty()
+        pwText.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%^&*]).{6,12}\$".toRegex()) || pwText.isEmpty()
     }.stateIn(
         started = SharingStarted.WhileSubscribed(5000L),
         scope = viewModelScope,
