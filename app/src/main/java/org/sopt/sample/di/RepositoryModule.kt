@@ -2,6 +2,7 @@ package org.sopt.sample.di
 
 import com.example.data.repository.AuthRepository
 import com.example.data.repository.MainRepository
+import com.example.data.repository.MusicRepository
 import com.example.data.repository.impl.AuthRepositoryImpl
 import com.example.data.repository.impl.MainRepositoryImpl
 import com.example.data.repository.impl.MusicRepositoryImpl
@@ -24,5 +25,5 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindsMusicRepository(musicRepositoryImpl: MusicRepositoryImpl)
+    abstract fun bindsMusicRepository(musicRepositoryImpl: MusicRepositoryImpl): MusicRepository
 }

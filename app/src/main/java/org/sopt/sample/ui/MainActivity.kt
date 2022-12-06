@@ -10,7 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivityMainBinding
 import org.sopt.sample.ui.home.HomeFragment
-import org.sopt.sample.ui.place.PlaceFragment
+import org.sopt.sample.ui.music.MusicFragment
 import org.sopt.sample.ui.profile.ProfileFragment
 
 @AndroidEntryPoint
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         binding.botNavMain.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_home -> navigateTo<HomeFragment>()
-                R.id.menu_place -> navigateTo<PlaceFragment>()
+                R.id.menu_place -> navigateTo<MusicFragment>()
                 R.id.menu_person -> navigateTo<ProfileFragment>()
             }
             return@setOnItemSelectedListener true
