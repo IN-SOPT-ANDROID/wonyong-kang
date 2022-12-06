@@ -20,6 +20,7 @@ android {
         versionName "1.0"
         buildConfigField "String", "BASE_URL", properties["BASE_URL"]
         buildConfigField "String", "REQRES_URL", properties["REQRES_URL"]
+        buildConfigField "String", "MUSIC_URL", properties["MUSIC_URL"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

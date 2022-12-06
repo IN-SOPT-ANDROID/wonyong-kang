@@ -15,8 +15,10 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.sopt.sample.BuildConfig
 import org.sopt.sample.BuildConfig.BASE_URL
+import org.sopt.sample.BuildConfig.MUSIC_URL
 import org.sopt.sample.BuildConfig.REQRES_URL
 import org.sopt.sample.di.type.RetrofitType
+import org.sopt.sample.di.type.RetrofitType.MUSIC
 import org.sopt.sample.di.type.RetrofitType.REQ_RES
 import org.sopt.sample.di.type.RetrofitType.SOPT
 import retrofit2.Retrofit
@@ -47,7 +49,7 @@ object NetworkModule {
             .writeTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
             .addInterceptor(interceptor)
-        
+
         if (BuildConfig.DEBUG) {
             client.addInterceptor(
                 HttpLoggingInterceptor().apply {
@@ -74,6 +76,18 @@ object NetworkModule {
     fun providesReqResRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(REQRES_URL)
+            .client(okHttpClient)
+            .addConverterFactory(
+                json.asConverterFactory("application/json".toMediaType())
+            )
+            .build()
+
+    @Provides
+    @Singleton
+    @Retrofit2(MUSIC)
+    fun providesMusicRetrofit(okHttpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(MUSIC_URL)
             .client(okHttpClient)
             .addConverterFactory(
                 json.asConverterFactory("application/json".toMediaType())
