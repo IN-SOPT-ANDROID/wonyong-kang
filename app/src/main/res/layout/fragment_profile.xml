@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.ProfileFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/iv_selected_music_img"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_person" />
+
+        <Button
+            android:id="@+id/btn_img_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/select_img"
+            app:layout_constraintEnd_toEndOf="@+id/iv_selected_music_img"
+            app:layout_constraintStart_toStartOf="@+id/iv_selected_music_img"
+            app:layout_constraintTop_toBottomOf="@+id/iv_selected_music_img" />
+
+        <Button
+            android:id="@+id/btn_post_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/post_btn"
+            app:layout_constraintEnd_toEndOf="@+id/btn_img_select"
+            app:layout_constraintStart_toStartOf="@+id/btn_img_select"
+            app:layout_constraintTop_toBottomOf="@+id/btn_img_select" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

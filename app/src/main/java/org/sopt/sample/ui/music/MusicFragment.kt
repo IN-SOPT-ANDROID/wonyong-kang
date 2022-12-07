@@ -46,4 +46,9 @@ class MusicFragment : Fragment() {
             .onEach(musicAdapter::submitList)
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
