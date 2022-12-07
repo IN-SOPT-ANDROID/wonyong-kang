@@ -36,15 +36,6 @@ class ProfileFragment : Fragment() {
         pickVisualMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
-                    Log.d(
-                        "Musiccc",
-                        "uri form data : ${
-                        ContentUriRequestBody(
-                            requireContext(),
-                            profileViewModel.musicImg.value
-                        ).toFormData()
-                        } uri : $uri"
-                    )
                     profileViewModel.setUri(uri)
                 } else {
                     Log.d("PhotoPicker", "No media selected")

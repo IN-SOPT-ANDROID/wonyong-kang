@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.repository.MusicRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
@@ -25,7 +25,6 @@ class ProfileViewModel @Inject constructor(
 
     fun postMusic(image: MultipartBody.Part) {
         viewModelScope.launch {
-            Log.d("MUSIC", "img uri : ${musicImg.value} image : $image")
             musicRepository.postMusic(
                 title = "Hous",
                 singer = "KWY",
