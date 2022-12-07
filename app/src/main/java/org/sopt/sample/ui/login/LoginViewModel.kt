@@ -39,7 +39,7 @@ class LoginViewModel @Inject constructor(
         scope = viewModelScope,
         initialValue = false
     )
-    val isSignUp = combine(isIdValid, isPwValid, idText, pwText) { isIdValid, isPwValid, id, pw ->
+    val isLogin = combine(isIdValid, isPwValid, idText, pwText) { isIdValid, isPwValid, id, pw ->
         isIdValid && isPwValid && id.isNotEmpty() && pw.isNotEmpty()
     }.stateIn(
         started = SharingStarted.WhileSubscribed(5000L),
