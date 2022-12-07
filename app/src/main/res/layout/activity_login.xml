@@ -98,11 +98,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="32dp"
-            android:background="@{vm.isSignUp ? @color/purple_200 : @color/gray}"
-            android:clickable="@{vm.isSignUp}"
+            android:background="@{vm.isLogin ? @color/purple_200 : @color/gray}"
+            android:clickable="@{vm.isLogin}"
             android:onClick="@{()->vm.loginOnClick()}"
             android:text="@string/main_login"
-            android:textColor="@{vm.isSignUp ? @color/black : @color/white}"
+            android:textColor="@{vm.isLogin ? @color/black : @color/white}"
             app:layout_constraintTop_toBottomOf="@+id/tv_login_error_msg"
             tools:layout_editor_absoluteX="-16dp" />
 
