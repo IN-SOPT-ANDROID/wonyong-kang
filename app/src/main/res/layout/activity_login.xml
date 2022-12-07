@@ -8,6 +8,8 @@
         <variable
             name="vm"
             type="org.sopt.sample.ui.login.LoginViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,8 +58,10 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
+            android:background="@{vm.isIdValid ? @drawable/shape_black_8_line_rect : @drawable/shape_red_8_line_rect}"
             android:hint="@string/main_id_hint"
             android:maxLines="1"
+            android:padding="12dp"
             android:text="@={vm.idText}"
             app:layout_constraintTop_toBottomOf="@+id/tv_login_id"
             tools:layout_editor_absoluteX="0dp" />
@@ -68,12 +72,25 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
+            android:background="@{vm.isPwValid ? @drawable/shape_black_8_line_rect : @drawable/shape_red_8_line_rect}"
             android:hint="@string/main_pw_hint"
             android:inputType="textPassword"
             android:maxLines="1"
+            android:padding="12dp"
             android:text="@={vm.pwText}"
             app:layout_constraintTop_toBottomOf="@+id/tv_login_pw"
             tools:layout_editor_absoluteX="31dp" />
+
+        <TextView
+            android:id="@+id/tv_login_error_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/login_error_msg"
+            android:textColor="@color/red"
+            android:visibility="@{vm.isPwValid ? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="@+id/et_login_pw"
+            app:layout_constraintTop_toBottomOf="@+id/et_login_pw" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_login"
@@ -81,12 +98,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="32dp"
-            android:background="@{vm.isSignUp ? @color/purple_200 : @color/gray}"
-            android:clickable="@{vm.isSignUp}"
+            android:background="@{vm.isLogin ? @color/purple_200 : @color/gray}"
+            android:clickable="@{vm.isLogin}"
             android:onClick="@{()->vm.loginOnClick()}"
             android:text="@string/main_login"
-            android:textColor="@{vm.isSignUp ? @color/black : @color/white}"
-            app:layout_constraintTop_toBottomOf="@+id/et_login_pw"
+            android:textColor="@{vm.isLogin ? @color/black : @color/white}"
+            app:layout_constraintTop_toBottomOf="@+id/tv_login_error_msg"
             tools:layout_editor_absoluteX="-16dp" />
 
         <Button

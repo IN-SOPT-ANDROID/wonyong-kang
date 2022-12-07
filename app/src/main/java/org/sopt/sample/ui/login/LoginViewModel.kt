@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -23,8 +24,23 @@ class LoginViewModel @Inject constructor(
     val loginEvent = _loginEvent.asSharedFlow()
     val idText = MutableStateFlow("")
     val pwText = MutableStateFlow("")
-    val isSignUp = combine(idText, pwText) { id, pw ->
-        id.length in 6..10 && pw.length in 8..12
+
+    val isIdValid = idText.map { idText ->
+        idText.matches("^(?=.*[a-zA-Z])(?=.*[0-9]).{6,10}\$".toRegex()) || idText.isEmpty()
+    }.stateIn(
+        started = SharingStarted.WhileSubscribed(5000L),
+        scope = viewModelScope,
+        initialValue = false
+    )
+    val isPwValid = pwText.map { pwText ->
+        pwText.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%^&*]).{6,12}\$".toRegex()) || pwText.isEmpty()
+    }.stateIn(
+        started = SharingStarted.WhileSubscribed(5000L),
+        scope = viewModelScope,
+        initialValue = false
+    )
+    val isLogin = combine(isIdValid, isPwValid, idText, pwText) { isIdValid, isPwValid, id, pw ->
+        isIdValid && isPwValid && id.isNotEmpty() && pw.isNotEmpty()
     }.stateIn(
         started = SharingStarted.WhileSubscribed(5000L),
         scope = viewModelScope,
