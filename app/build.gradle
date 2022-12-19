@@ -10,16 +10,17 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 
 android {
     namespace 'org.sopt.sample'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "org.sopt.sample"
         minSdk 26
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "BASE_URL", properties["BASE_URL"]
         buildConfigField "String", "REQRES_URL", properties["REQRES_URL"]
+        buildConfigField "String", "MUSIC_URL", properties["MUSIC_URL"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -60,7 +61,7 @@ dependencies {
     kapt 'com.google.dagger:hilt-compiler:2.44'
 
     // ktx
-    implementation 'androidx.activity:activity-ktx:1.5.1'
+    implementation 'androidx.activity:activity-ktx:1.6.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.0-alpha01'
     implementation 'androidx.fragment:fragment-ktx:1.5.3'
 

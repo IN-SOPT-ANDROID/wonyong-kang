@@ -49,7 +49,7 @@ class HomeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 homeViewModel.followers.collect { followers ->
-                    delay(2000)
+                    delay(100)
                     homeAdapter.submitData(followers)
                 }
             }
